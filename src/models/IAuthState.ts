@@ -10,6 +10,9 @@ export enum IAuthActionTypes {
 export type IAuthState = {
   user: string | null;
   role: string | null;
+  fullname: string | null;
+  avatar: string | null;
+  token: string | null;
 };
 
 export type IAuthActionCreator = {

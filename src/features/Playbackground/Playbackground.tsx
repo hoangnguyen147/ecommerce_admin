@@ -10,6 +10,8 @@ function Playbackground() {
   const [pagination, setPagination] = useState(1);
   const { data } = useGet(`/todos/${pagination}`, {});
 
+  const res : any = useGet('/Category', {});
+
   function checkSnackBar() {
     dispatch(
       enqueueSnackbarAction({

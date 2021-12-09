@@ -48,12 +48,13 @@ export default function SignIn() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const [name, setName] = useState('tonynguyen');
+  const [name, setName] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const [role, setRole] = useState('ADMIN');
 
   const _onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(login(name, role, history));
+    dispatch(login('admin', 'adminPass123', role, history));
   };
 
   return (

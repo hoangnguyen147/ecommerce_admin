@@ -30,6 +30,10 @@ class AuthService {
     localStorage.clear();
   };
 
+  logIn = (token: string) => {
+    localStorage.setItem('accessToken', token);
+  };
+
   getUser = () => {
     const user = localStorage.getItem('user') || '';
     return user;

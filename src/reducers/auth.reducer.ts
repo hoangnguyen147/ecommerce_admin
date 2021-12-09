@@ -3,6 +3,9 @@ import { IAuthActionTypes, IAuthActionCreator, IAuthState } from 'models/IAuthSt
 const initialState: IAuthState = {
   user: null,
   role: null,
+  fullname: null,
+  avatar: null,
+  token: null,
 };
 
 const reducer = (state = initialState, { type, payload }: IAuthActionCreator) => {
@@ -12,6 +15,9 @@ const reducer = (state = initialState, { type, payload }: IAuthActionCreator) =>
         ...state,
         user: payload.user,
         role: payload.role,
+        fullname: payload.fullname,
+        avatar: payload.avatar,
+        token: payload.token,
       };
     case IAuthActionTypes.LOGIN_FAILURE:
       return {

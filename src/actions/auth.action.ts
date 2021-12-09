@@ -10,15 +10,27 @@ import authService from 'services/authService';
 // configs
 import { PATH_NAME } from 'configs';
 
-export const login = (username: string, roleUser: string, history: IHistory) => async (dispatch: Dispatch<any>) => {
+import * as api from 'apis/auth.api';
+
+export const login = (username: string, password: string, roleUser: string, history: IHistory) => async (dispatch: Dispatch<any>) => {
   dispatch({ type: IAuthActionTypes.LOGIN_REQUEST });
 
-  const { user, role } = await authService.loginWithAuth0(username, roleUser);
-  dispatch({
-    type: IAuthActionTypes.LOGIN_SUCCESS,
-    payload: { user, role },
-  });
-  history.push(PATH_NAME.ROOT);
+  try {
+
+    const res : any = await api.login('/Auth/admin-login', { username, password });
+
+    const { user, fullname, avatar, token } = res.data.data;
+
+    authService.logIn(token);
+
+    dispatch({
+      type: IAuthActionTypes.LOGIN_SUCCESS,
+      payload: { user, fullname, avatar, token, role: 'ADMIN' },
+    });
+    history.push(PATH_NAME.ROOT);
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 export const logout = () => (dispatch: Dispatch<any>) => {
