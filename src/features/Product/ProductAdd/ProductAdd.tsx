@@ -8,7 +8,6 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import useGet from 'hooks/useGet';
-import { AddProductRequest } from 'DTOs/product.dto';
 import { postAddProduct } from 'apis/product.api';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'redux/actions/app.action';
