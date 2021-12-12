@@ -1,7 +1,7 @@
 import httpRequest from 'services/httpRequest';
 
-export const login = async (url: string, data: any) => {
-  return httpRequest.post(url, data, {
+export const login = async (data: any) => {
+  return httpRequest.post('/auth/login', data, {
     showSpinner: true,
   });
 };

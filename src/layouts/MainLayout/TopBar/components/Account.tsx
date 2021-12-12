@@ -16,10 +16,10 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import { PATH_NAME } from 'configs';
 
 // actions
-import { logout } from 'actions/auth.action';
+import { logout } from 'redux/actions/auth.action';
 
 // selectors
-import { roleSelector } from 'selectors/auth.selector';
+import { roleSelector } from 'redux/selectors/auth.selector';
 
 function Account({ ...classes }) {
   const { t: translate } = useTranslation();

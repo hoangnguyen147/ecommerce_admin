@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
 
 // selectors
-import { notificationsSelector } from 'selectors/app.selector';
+import { notificationsSelector } from 'redux/selectors/app.selector';
 
 // actions
-import { removeSnackbar } from 'actions/app.action';
+import { removeSnackbar } from 'redux/actions/app.action';
 
 let displayed: any[] = [];
 

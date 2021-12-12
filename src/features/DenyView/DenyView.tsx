@@ -7,7 +7,7 @@ import { Box, Button, Container, Typography, Grid, useTheme, useMediaQuery, make
 import { PATH_NAME } from 'configs';
 
 // actions
-import { logout } from 'actions/auth.action';
+import { logout } from 'redux/actions/auth.action';
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { GlobalProvider } from 'context/GlobalContext';
 
 // stores
-import store from 'stores';
+import store from 'redux/stores';
 
 // i18n
 import 'locales/i18n';

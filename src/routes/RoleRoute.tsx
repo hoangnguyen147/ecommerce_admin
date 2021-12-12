@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { PATH_NAME } from 'configs';
 
 // selectors
-import { roleSelector } from 'selectors/auth.selector';
+import { roleSelector } from 'redux/selectors/auth.selector';
 
 type IProps = {
   requireRoles: string[] | [];

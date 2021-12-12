@@ -24,22 +24,14 @@ import { canAction } from 'helpers';
 
 // hooks
 import usePagination from 'hooks/usePagination';
-
-function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+import useGet from 'hooks/useGet';
 
 function ProductList() {
   const history = useHistory();
   const { page, perPage, _changePage, _changePerPage } = usePagination();
+  const { data } = useGet('/product', {}, true, 10);
+
+  console.log(data);
 
   return (
     <div>
@@ -61,23 +53,25 @@ function ProductList() {
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Dessert (100g serving)</TableCell>
-              <TableCell align="right">Calories</TableCell>
-              <TableCell align="right">Fat&nbsp;(g)</TableCell>
-              <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-              <TableCell align="right">Protein&nbsp;(g)</TableCell>
+              <TableCell>STT</TableCell>
+              <TableCell>Tên</TableCell>
+              <TableCell>Số lượng</TableCell>
+              <TableCell>Giá</TableCell>
+              <TableCell>Đánh giá</TableCell>
+              <TableCell>Công cụ</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.name}>
+            {data?.map((row: any) => (
+              <TableRow key={row.id}>
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  {row.id}
                 </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-                <TableCell align="right">{row.protein}</TableCell>
+                <TableCell>{row.name}</TableCell>
+                <TableCell>{row.quantity}</TableCell>
+                <TableCell>{row.price}</TableCell>
+                <TableCell>{row.vote}</TableCell>
+                <TableCell>{row.vote}</TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -11,10 +11,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Typography from '@material-ui/core/Typography';
 
 // actions
-import { setDialog } from 'actions/app.action';
+import { setDialog } from 'redux/actions/app.action';
 
 // selectors
-import { dialogSelector } from 'selectors/app.selector';
+import { dialogSelector } from 'redux/selectors/app.selector';
 
 export default function DialogError() {
   const dispatch = useDispatch();

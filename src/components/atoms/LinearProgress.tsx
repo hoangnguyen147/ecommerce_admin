@@ -6,7 +6,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 // selectors
-import { isLoadingSelector } from 'selectors/app.selector';
+import { isLoadingSelector } from 'redux/selectors/app.selector';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

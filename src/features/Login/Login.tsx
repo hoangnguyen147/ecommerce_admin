@@ -22,7 +22,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { USER_ROLE } from 'configs';
 
 // actions
-import { login } from 'actions/auth.action';
+import { login } from 'redux/actions/auth.action';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -48,13 +48,23 @@ export default function SignIn() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const [name, setName] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [role, setRole] = useState('ADMIN');
+  const [values, setValues] = useState({
+    username: '',
+    password: '',
+  });
+
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { target } = e;
+    setValues({
+      ...values,
+      [target.name]: target.value,
+    });
+  };
 
   const _onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(login('admin', 'adminPass123', role, history));
+    dispatch(login(values.username, values.password, 'ADMIN', history));
+    console.log(values);
   };
 
   return (
@@ -73,29 +83,30 @@ export default function SignIn() {
             margin="normal"
             required
             fullWidth
-            id="name"
+            id="username"
             label="User Name"
-            name="name"
-            autoComplete="name"
+            name="username"
+            autoComplete="username"
             autoFocus
-            value={name}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+            value={values.username}
+            onChange={handleOnChange}
           />
           <br />
           <br />
-          <FormControl variant="outlined" fullWidth>
-            <InputLabel id="demo-simple-select-outlined-label">Role</InputLabel>
-            <Select
-              fullWidth
-              value={role}
-              onChange={(e: React.ChangeEvent<{ value: unknown }>) => setRole(e.target.value as string)}
-              label="Role"
-            >
-              <MenuItem value={USER_ROLE.ADMIN}>Admin</MenuItem>
-              <MenuItem value={USER_ROLE.LEAD}>Lead</MenuItem>
-              <MenuItem value={USER_ROLE.GUEST}>Guest</MenuItem>
-            </Select>
-          </FormControl>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="password"
+            type="password"
+            label="Password"
+            name="password"
+            autoComplete="password"
+            autoFocus
+            value={values.password}
+            onChange={handleOnChange}
+          />
           <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
             Submit
           </Button>

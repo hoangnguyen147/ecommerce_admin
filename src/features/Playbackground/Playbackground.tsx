@@ -3,14 +3,14 @@ import { useDispatch } from 'react-redux';
 import useGet from 'hooks/useGet';
 
 // action
-import { enqueueSnackbarAction } from 'actions/app.action';
+import { enqueueSnackbarAction } from 'redux/actions/app.action';
 
 function Playbackground() {
   const dispatch = useDispatch();
   const [pagination, setPagination] = useState(1);
   const { data } = useGet(`/todos/${pagination}`, {});
 
-  const res : any = useGet('/Category', {});
+  const res: any = useGet('/Category', {});
 
   function checkSnackBar() {
     dispatch(

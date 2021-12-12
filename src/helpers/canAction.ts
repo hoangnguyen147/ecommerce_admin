@@ -1,5 +1,5 @@
 import { AbilityBuilder, Ability } from '@casl/ability';
-import store from 'stores';
+import store from 'redux/stores';
 
 // configs
 import { USER_ROLE, DRAWER_MENU_LABEL } from 'configs';
