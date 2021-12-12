@@ -12,6 +12,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import AddIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
 
 // atomic
 import PaginationBase from 'components/molecules/PaginationBase';
@@ -25,11 +26,12 @@ import { canAction } from 'helpers';
 // hooks
 import usePagination from 'hooks/usePagination';
 import useGet from 'hooks/useGet';
+import { IconButton } from '@material-ui/core';
 
 function ProductList() {
   const history = useHistory();
   const { page, perPage, _changePage, _changePerPage } = usePagination();
-  const { data } = useGet('/product', {}, true, 10);
+  const { data } = useGet('/product', {}, true, 0);
 
   console.log(data);
 
@@ -55,6 +57,7 @@ function ProductList() {
             <TableRow>
               <TableCell>STT</TableCell>
               <TableCell>Tên</TableCell>
+              <TableCell>Nhóm sản phẩm</TableCell>
               <TableCell>Số lượng</TableCell>
               <TableCell>Giá</TableCell>
               <TableCell>Đánh giá</TableCell>
@@ -68,10 +71,15 @@ function ProductList() {
                   {row.id}
                 </TableCell>
                 <TableCell>{row.name}</TableCell>
+                <TableCell>{row.category.name}</TableCell>
                 <TableCell>{row.quantity}</TableCell>
                 <TableCell>{row.price}</TableCell>
                 <TableCell>{row.vote}</TableCell>
-                <TableCell>{row.vote}</TableCell>
+                <TableCell>
+                  <IconButton color="primary" aria-label="edit user" component="span">
+                    <EditIcon />
+                  </IconButton>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

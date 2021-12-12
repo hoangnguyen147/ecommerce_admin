@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -7,62 +7,163 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
+import useGet from 'hooks/useGet';
+import { AddProductRequest } from 'DTOs/product.dto';
+import { postAddProduct } from 'apis/product.api';
+import { useDispatch } from 'react-redux';
+import { enqueueSnackbarAction } from 'redux/actions/app.action';
 
 function ProductAdd() {
+  const { data } = useGet('/category', {}, true, 0);
+  const dispatch = useDispatch();
+  const [values, setValues] = useState<any>({
+    name: '',
+    category_id: '',
+    image: '',
+    price: '',
+    quantity: '',
+    vote: '',
+  });
+
+  const resetForm = () =>
+    setValues({
+      name: '',
+      category_id: '',
+      image: '',
+      price: '',
+      quantity: '',
+      vote: '',
+    });
+
+  // này làm vội nên xài any thôi khỏi phải khai báo DTO v:
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { target } = e;
+    setValues({
+      ...values,
+      [target.name]: target.value,
+    });
+  };
+
+  const handleSelectChange = (e: React.ChangeEvent<any>) => {
+    const { target } = e;
+    setValues({
+      ...values,
+      [target.name]: target.value,
+    });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const res = await postAddProduct(values);
+      dispatch(
+        enqueueSnackbarAction({
+          key: new Date().getTime() + 3000,
+          message: 'Thêm sản phẩm thành công',
+          variant: 'success',
+        }),
+      );
+      console.log(res);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <>
       <Grid container alignItems="center">
         <Grid item sm={12}>
-          <h2>Add Product</h2>
+          <h2>Thêm sản phẩm</h2>
         </Grid>
       </Grid>
       <Grid>
-        <h3>Information</h3>
+        <h3>Thông tin sản phẩm</h3>
       </Grid>
+      <br />
       <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
-          <TextField fullWidth variant="outlined" label="Name" />
+        <Grid item xs={12} md={4}>
+          <TextField name="name" value={values.name} onChange={handleInputChange} fullWidth variant="outlined" label="Tên" />
         </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField fullWidth variant="outlined" label="Alias Name" />
+        <Grid item xs={12} md={4}>
+          <TextField
+            name="image"
+            value={values.image}
+            onChange={handleInputChange}
+            fullWidth
+            variant="outlined"
+            label="Hình ảnh"
+          />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <FormControl variant="outlined" fullWidth>
+            <InputLabel id="demo-simple-select-outlined-label">Nhóm sản phẩm</InputLabel>
+            <Select
+              name="category_id"
+              value={values.category_id}
+              onChange={handleSelectChange}
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              label="Nhóm sản phẩm"
+              fullWidth
+            >
+              {data?.map((item: any) => {
+                return (
+                  <MenuItem key={item.id} value={item.id}>
+                    {item.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
         </Grid>
       </Grid>
       <br />
       <br />
-      <Grid>
-        <h3>Advance</h3>
-      </Grid>
       <Grid container spacing={2}>
         <Grid item xs={12} md={4}>
-          <TextField fullWidth variant="outlined" label="Address" />
+          <TextField
+            name="price"
+            value={values.price}
+            onChange={handleInputChange}
+            type="number"
+            fullWidth
+            variant="outlined"
+            label="Giá"
+          />
         </Grid>
         <Grid item xs={12} md={4}>
-          <FormControl variant="outlined" fullWidth>
-            <InputLabel id="demo-simple-select-outlined-label">District</InputLabel>
-            <Select labelId="demo-simple-select-outlined-label" id="demo-simple-select-outlined" label="District" fullWidth>
-              <MenuItem value="phunhuan">Phu Nhuan</MenuItem>
-              <MenuItem value="binhthanh">Binh Thanh</MenuItem>
-            </Select>
-          </FormControl>
+          <TextField
+            name="quantity"
+            value={values.quantity}
+            onChange={handleInputChange}
+            type="number"
+            fullWidth
+            variant="outlined"
+            label="Số lượng"
+          />
         </Grid>
         <Grid item xs={12} md={4}>
-          <FormControl variant="outlined" fullWidth>
-            <InputLabel id="demo-simple-select-outlined-label">City</InputLabel>
-            <Select labelId="demo-simple-select-outlined-label" id="demo-simple-select-outlined" label="City" fullWidth>
-              <MenuItem value="hcm">TP.HCM</MenuItem>
-              <MenuItem value="hn">HN</MenuItem>
-            </Select>
-          </FormControl>
+          <TextField
+            name="vote"
+            value={values.vote}
+            onChange={handleInputChange}
+            type="number"
+            fullWidth
+            variant="outlined"
+            label="Đánh giá"
+          />
         </Grid>
         <Grid container justify="flex-end" className="my-20">
-          <Button color="primary">Add More</Button>
+          <Button onClick={() => resetForm()} color="primary">
+            Add More
+          </Button>
         </Grid>
         <br />
         <Grid container item sm={12} md={12} justify="flex-end">
           <Button variant="outlined" color="primary" className="mr-20">
             Cancel
           </Button>
-          <Button color="primary" variant="contained">
+          <Button onClick={() => handleSubmit()} color="primary" variant="contained">
             Submit
           </Button>
         </Grid>
