@@ -1,7 +1,6 @@
 import cookie from 'js-cookie';
 import axios, { AxiosRequestConfig, AxiosError } from 'axios';
-
-const setLoading = (isLoading: boolean) => {}; // fake action set loading
+import { setLoading } from 'redux/actions/app.action';
 
 export type IConfig = AxiosRequestConfig & {
   showSpinner?: boolean;
@@ -31,7 +30,7 @@ export default function initRequest(store: any) {
   function decreaseRequestCount() {
     requestCount -= 1;
     if (requestCount === 0) {
-      // store.dispatch(setLoading(false));
+      store.dispatch(setLoading(false));
     }
   }
 
@@ -39,7 +38,7 @@ export default function initRequest(store: any) {
     (config: IConfig) => {
       if (config.showSpinner) {
         requestCount += 1;
-        // store.dispatch(setLoading(true));
+        store.dispatch(setLoading(true));
       }
 
       const accessToken = getAccessToken();

@@ -52,6 +52,26 @@ export const navBarCommon = [
         ],
       },
       {
+        title: 'Category',
+        icon: ShopIcon,
+        href: PATH_NAME.CATEGORY,
+        label: DRAWER_MENU_LABEL.CATEGORY,
+        items: [
+          {
+            title: 'Add Category',
+            icon: AddIcon,
+            href: PATH_NAME.CATEGORY_ADD,
+            label: DRAWER_MENU_LABEL.CATEGORY_ADD,
+          },
+          {
+            title: 'List Category',
+            icon: ViewListIcon,
+            href: PATH_NAME.CATEGORY_LIST,
+            label: DRAWER_MENU_LABEL.CATEGORY_LIST,
+          },
+        ],
+      },
+      {
         title: 'Kanban',
         href: PATH_NAME.KANBAN,
         icon: AssessmentIcon,

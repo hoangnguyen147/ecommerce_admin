@@ -13,7 +13,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
-import * as api from 'apis/product.api';
+import * as api from 'apis/category.api';
 
 // atomic
 import PaginationBase from 'components/molecules/PaginationBase';
@@ -28,9 +28,9 @@ import { canAction } from 'helpers';
 import usePagination from 'hooks/usePagination';
 import useGet from 'hooks/useGet';
 import { IconButton } from '@material-ui/core';
-import EditProductModal from '../components/EditProductModal';
+import EditCategoryModal from '../components/EditCategoryModal';
 
-function ProductList() {
+function CategoryList() {
   const history = useHistory();
   const { page, perPage, _changePage, _changePerPage } = usePagination();
   const [data, setData] = useState<any>('');
@@ -39,7 +39,7 @@ function ProductList() {
 
   const getData = async () => {
     try {
-      const res = await api.getAllProduct();
+      const res = await api.getAllCategory();
       console.log(res);
       setData(res.data);
     } catch (err) {
@@ -79,11 +79,8 @@ function ProductList() {
             <TableRow>
               <TableCell>STT</TableCell>
               <TableCell>Tên</TableCell>
-              <TableCell>Nhóm sản phẩm</TableCell>
-              <TableCell>Số lượng</TableCell>
-              <TableCell>Giá</TableCell>
-              <TableCell>Đánh giá</TableCell>
-              <TableCell>Công cụ</TableCell>
+              <TableCell>Mô tả</TableCell>
+              <TableCell>Hình ảnh</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -94,10 +91,8 @@ function ProductList() {
                     {row.id}
                   </TableCell>
                   <TableCell>{row.name}</TableCell>
-                  <TableCell>{row.category.name}</TableCell>
-                  <TableCell>{row.quantity}</TableCell>
-                  <TableCell>{row.price}</TableCell>
-                  <TableCell>{row.vote}</TableCell>
+                  <TableCell>{row.description}</TableCell>
+                  <TableCell>{row.image}</TableCell>
                   <TableCell>
                     <IconButton color="primary" aria-label="edit user" component="span" onClick={() => handleEdit(row)}>
                       <EditIcon />
@@ -110,9 +105,9 @@ function ProductList() {
       </TableContainer>
       <PaginationBase pageIndex={page} perPage={perPage} totalPage={50} changePage={_changePage} changePerPage={_changePerPage} />
 
-      <EditProductModal isOpen={isEdit} handleClose={() => setIsEdit(false)} data={item} />
+      <EditCategoryModal isOpen={isEdit} handleClose={() => setIsEdit(false)} data={item} />
     </div>
   );
 }
 
-export default ProductList;
+export default CategoryList;

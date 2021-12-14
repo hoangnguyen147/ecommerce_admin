@@ -27,6 +27,8 @@ const Dashboard = lazy(() => import('features/Dashboard'));
 const Playbackground = lazy(() => import('features/Playbackground'));
 const Login = lazy(() => import('features/Login'));
 const Kanban = lazy(() => import('features/Kanban'));
+const CategoryList = lazy(() => import('features/Category/CategoryList'));
+const CategoryAdd = lazy(() => import('features/Category/CategoryAdd'));
 
 const routesConfig: IRoutes[] = [
   {
@@ -77,6 +79,18 @@ const routesConfig: IRoutes[] = [
         exact: true,
         path: PATH_NAME.PRODUCT_ADD,
         component: ProductAdd,
+        requireRoles: [USER_ROLE.ADMIN],
+      },
+      {
+        exact: true,
+        path: PATH_NAME.CATEGORY_LIST,
+        component: CategoryList,
+        requireRoles: [USER_ROLE.ADMIN, USER_ROLE.LEAD],
+      },
+      {
+        exact: true,
+        path: PATH_NAME.CATEGORY_ADD,
+        component: CategoryAdd,
         requireRoles: [USER_ROLE.ADMIN],
       },
       {

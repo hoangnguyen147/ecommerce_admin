@@ -8,6 +8,9 @@ export const PATH_NAME = {
   PRODUCT: '/product',
   PRODUCT_LIST: '/product/list',
   PRODUCT_ADD: '/product/add',
+  CATEGORY: '/category',
+  CATEGORY_LIST: '/category/list',
+  CATEGORY_ADD: '/category/add',
   USERS: '/users',
   KANBAN: '/kanban',
 };
