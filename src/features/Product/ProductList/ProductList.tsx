@@ -80,6 +80,7 @@ function ProductList() {
               <TableCell>STT</TableCell>
               <TableCell>Tên</TableCell>
               <TableCell>Nhóm sản phẩm</TableCell>
+              <TableCell>Hình ảnh</TableCell>
               <TableCell>Số lượng</TableCell>
               <TableCell>Giá</TableCell>
               <TableCell>Đánh giá</TableCell>
@@ -95,6 +96,9 @@ function ProductList() {
                   </TableCell>
                   <TableCell>{row.name}</TableCell>
                   <TableCell>{row.category.name}</TableCell>
+                  <TableCell>
+                    <img src={row.image} width="180" />
+                  </TableCell>
                   <TableCell>{row.quantity}</TableCell>
                   <TableCell>{row.price}</TableCell>
                   <TableCell>{row.vote}</TableCell>

@@ -11,6 +11,7 @@ import useGet from 'hooks/useGet';
 import { postAddProduct } from 'apis/product.api';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'redux/actions/app.action';
+import { ImageField } from 'components/molecules/ImageField/ImageField';
 
 function ProductAdd() {
   const { data } = useGet('/category', {}, true, 0);
@@ -50,6 +51,24 @@ function ProductAdd() {
       ...values,
       [target.name]: target.value,
     });
+  };
+
+  const handleImageFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e);
+    const target: any = e.currentTarget;
+    if (target?.files[0]) {
+      const file = target.files[0];
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setValues({
+          ...values,
+          image: reader.result,
+        });
+        console.log(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = async () => {
@@ -152,12 +171,18 @@ function ProductAdd() {
             label="Đánh giá"
           />
         </Grid>
+        <Grid item xs={12} md={12}>
+          <h4>Thêm hình ảnh</h4>
+        </Grid>
+        <Grid item xs={12} md={12} className="my-10">
+          <ImageField name="category_image_field" value={values.image} url={values.image} onChange={handleImageFieldChange} />
+        </Grid>
+        <br />
         <Grid container justify="flex-end" className="my-20">
           <Button onClick={() => resetForm()} color="primary">
             Add More
           </Button>
         </Grid>
-        <br />
         <Grid container item sm={12} md={12} justify="flex-end">
           <Button variant="outlined" color="primary" className="mr-20">
             Cancel

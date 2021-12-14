@@ -92,7 +92,9 @@ function CategoryList() {
                   </TableCell>
                   <TableCell>{row.name}</TableCell>
                   <TableCell>{row.description}</TableCell>
-                  <TableCell>{row.image}</TableCell>
+                  <TableCell>
+                    <img src={row.image} width="180" />
+                  </TableCell>
                   <TableCell>
                     <IconButton color="primary" aria-label="edit user" component="span" onClick={() => handleEdit(row)}>
                       <EditIcon />

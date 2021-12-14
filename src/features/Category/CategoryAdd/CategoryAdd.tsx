@@ -11,6 +11,9 @@ import useGet from 'hooks/useGet';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'redux/actions/app.action';
 import { postAddCategory } from 'apis/category.api';
+import { PhotoAlbumOutlined, PhotoCamera } from '@material-ui/icons';
+import { Input } from '@material-ui/core';
+import { ImageField } from 'components/molecules/ImageField/ImageField';
 
 function CategoryAdd() {
   const { data } = useGet('/category', {}, true, 0);
@@ -46,6 +49,24 @@ function CategoryAdd() {
     });
   };
 
+  const handleImageFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e);
+    const target: any = e.currentTarget;
+    if (target?.files[0]) {
+      const file = target.files[0];
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setValues({
+          ...values,
+          image: reader.result,
+        });
+        console.log(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = async () => {
     try {
       console.log('alo');
@@ -75,10 +96,10 @@ function CategoryAdd() {
       </Grid>
       <br />
       <Grid container spacing={2}>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={6}>
           <TextField name="name" value={values.name} onChange={handleInputChange} fullWidth variant="outlined" label="Tên" />
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={6}>
           <TextField
             name="description"
             value={values.description}
@@ -88,15 +109,11 @@ function CategoryAdd() {
             label="Mô tả"
           />
         </Grid>
-        <Grid item xs={12} md={4}>
-          <TextField
-            name="image"
-            value={values.image}
-            onChange={handleInputChange}
-            fullWidth
-            variant="outlined"
-            label="Hình ảnh"
-          />
+        <Grid item xs={12} md={12}>
+          <h4>Thêm hình ảnh</h4>
+        </Grid>
+        <Grid item xs={12} md={12} className="my-10">
+          <ImageField name="category_image_field" value={values.image} url={values.image} onChange={handleImageFieldChange} />
         </Grid>
       </Grid>
       <br />
