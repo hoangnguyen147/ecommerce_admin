@@ -11,3 +11,25 @@ export const postAddProduct = async (data: any) => {
     showSpinner: true,
   });
 };
+
+export const patchSetHot = async (id: string) => {
+  return httpRequest.patch(
+    `/product/set-hot/${id}`,
+    {},
+    {
+      showSpinner: true,
+    },
+  );
+};
+
+export const putUpdateProduct = async (id: string, data: any) => {
+  return httpRequest.put(`/product/update-product/${id}`, data, {
+    showSpinner: true,
+  });
+};
+
+export const deleteProduct = async (id: string) => {
+  return httpRequest.delete(`/product/${id}`, {
+    showSpinner: true,
+  });
+};

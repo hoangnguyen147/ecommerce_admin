@@ -33,7 +33,7 @@ export default function DefaultPage() {
   const isLoading = useSelector(isLoadingSelector);
 
   return (
-    <Backdrop className={classes.backdrop} open={isLoading}>
+    <Backdrop style={{ zIndex: '1000' }} className={classes.backdrop} open={isLoading}>
       <div className={classes.root}>
         <span>Loading...</span>
         <LinearProgress />

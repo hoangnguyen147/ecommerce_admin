@@ -14,6 +14,7 @@ import Grid from '@material-ui/core/Grid';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import * as api from 'apis/category.api';
+import DeleteForever from '@material-ui/icons/DeleteForever';
 
 // atomic
 import PaginationBase from 'components/molecules/PaginationBase';
@@ -57,6 +58,16 @@ function CategoryList() {
     setIsEdit(true);
   };
 
+  const handleDelete = async (id: string) => {
+    try {
+      const res = await api.deleteCategory(id);
+      console.log(res);
+      getData();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div>
       {canAction('create', 'product') ? (
@@ -66,9 +77,9 @@ function CategoryList() {
             variant="contained"
             color="primary"
             startIcon={<AddIcon />}
-            onClick={() => history.push(PATH_NAME.PRODUCT_ADD)}
+            onClick={() => history.push(PATH_NAME.CATEGORY_ADD)}
           >
-            Add Product
+            Add Category
           </Button>
         </Grid>
       ) : null}
@@ -77,28 +88,38 @@ function CategoryList() {
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>STT</TableCell>
-              <TableCell>Tên</TableCell>
-              <TableCell>Mô tả</TableCell>
-              <TableCell>Hình ảnh</TableCell>
+              <TableCell align="center">STT</TableCell>
+              <TableCell align="center">Tên</TableCell>
+              <TableCell align="center">Mô tả</TableCell>
+              <TableCell align="center">Hình ảnh</TableCell>
+              <TableCell align="center">Công cụ</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {data &&
-              data?.map((row: any) => (
+              data?.map((row: any, index: number) => (
                 <TableRow key={row.id}>
                   <TableCell component="th" scope="row">
-                    {row.id}
+                    {index + 1}
                   </TableCell>
-                  <TableCell>{row.name}</TableCell>
-                  <TableCell>{row.description}</TableCell>
-                  <TableCell>
+                  <TableCell align="center">{row.name}</TableCell>
+                  <TableCell align="center">{row.description}</TableCell>
+                  <TableCell align="center">
                     <img src={row.image} width="180" />
                   </TableCell>
-                  <TableCell>
-                    <IconButton color="primary" aria-label="edit user" component="span" onClick={() => handleEdit(row)}>
-                      <EditIcon />
-                    </IconButton>
+                  <TableCell align="center">
+                    <Grid container>
+                      <Grid item xs={6}>
+                        <IconButton color="primary" aria-label="edit user" component="span" onClick={() => handleEdit(row)}>
+                          <EditIcon />
+                        </IconButton>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <IconButton color="primary" aria-label="edit user" component="span" onClick={() => handleDelete(row.id)}>
+                          <DeleteForever style={{ color: 'tomato' }} />
+                        </IconButton>
+                      </Grid>
+                    </Grid>
                   </TableCell>
                 </TableRow>
               ))}
@@ -107,7 +128,7 @@ function CategoryList() {
       </TableContainer>
       <PaginationBase pageIndex={page} perPage={perPage} totalPage={50} changePage={_changePage} changePerPage={_changePerPage} />
 
-      <EditCategoryModal isOpen={isEdit} handleClose={() => setIsEdit(false)} data={item} />
+      <EditCategoryModal getData={getData} isOpen={isEdit} handleClose={() => setIsEdit(false)} data={item} />
     </div>
   );
 }

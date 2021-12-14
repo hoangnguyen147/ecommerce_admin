@@ -99,20 +99,10 @@ function ProductAdd() {
       </Grid>
       <br />
       <Grid container spacing={2}>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={6}>
           <TextField name="name" value={values.name} onChange={handleInputChange} fullWidth variant="outlined" label="Tên" />
         </Grid>
-        <Grid item xs={12} md={4}>
-          <TextField
-            name="image"
-            value={values.image}
-            onChange={handleInputChange}
-            fullWidth
-            variant="outlined"
-            label="Hình ảnh"
-          />
-        </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={6}>
           <FormControl variant="outlined" fullWidth>
             <InputLabel id="demo-simple-select-outlined-label">Nhóm sản phẩm</InputLabel>
             <Select

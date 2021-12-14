@@ -11,3 +11,9 @@ export const postAddCategory = async (data: any) => {
     showSpinner: true,
   });
 };
+
+export const deleteCategory = async (id: string) => {
+  return httpRequest.delete(`/category/${id}`, {
+    showSpinner: true,
+  });
+};

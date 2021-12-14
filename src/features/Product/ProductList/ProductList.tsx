@@ -13,6 +13,10 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
+import StarBorder from '@material-ui/icons/StarBorder';
+import Star from '@material-ui/icons/Star';
+import DeleteForever from '@material-ui/icons/DeleteForever';
+
 import * as api from 'apis/product.api';
 
 // atomic
@@ -37,6 +41,8 @@ function ProductList() {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [item, setItem] = useState('');
 
+  const cat = useGet('/category', {}, true, 0);
+
   const getData = async () => {
     try {
       const res = await api.getAllProduct();
@@ -55,6 +61,26 @@ function ProductList() {
     setItem(data);
     console.log(data);
     setIsEdit(true);
+  };
+
+  const handleSetHot = async (id: string) => {
+    try {
+      const res = await api.patchSetHot(id);
+      console.log(res);
+      getData();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      const res = await api.deleteProduct(id);
+      console.log(res);
+      getData();
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -78,34 +104,48 @@ function ProductList() {
           <TableHead>
             <TableRow>
               <TableCell>STT</TableCell>
-              <TableCell>Tên</TableCell>
-              <TableCell>Nhóm sản phẩm</TableCell>
-              <TableCell>Hình ảnh</TableCell>
-              <TableCell>Số lượng</TableCell>
-              <TableCell>Giá</TableCell>
-              <TableCell>Đánh giá</TableCell>
-              <TableCell>Công cụ</TableCell>
+              <TableCell align="center">Tên</TableCell>
+              <TableCell align="center">Nhóm sản phẩm</TableCell>
+              <TableCell align="center">Hình ảnh</TableCell>
+              <TableCell align="center">Số lượng</TableCell>
+              <TableCell align="center">Giá</TableCell>
+              <TableCell align="center">Đánh giá</TableCell>
+              <TableCell align="center">Công cụ</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {data &&
-              data?.map((row: any) => (
+              data?.map((row: any, index: number) => (
                 <TableRow key={row.id}>
                   <TableCell component="th" scope="row">
-                    {row.id}
+                    {index + 1}
                   </TableCell>
-                  <TableCell>{row.name}</TableCell>
-                  <TableCell>{row.category.name}</TableCell>
-                  <TableCell>
+                  <TableCell align="center">{row.name}</TableCell>
+                  <TableCell align="center">{row.category.name}</TableCell>
+                  <TableCell align="center">
                     <img src={row.image} width="180" />
                   </TableCell>
-                  <TableCell>{row.quantity}</TableCell>
-                  <TableCell>{row.price}</TableCell>
-                  <TableCell>{row.vote}</TableCell>
-                  <TableCell>
-                    <IconButton color="primary" aria-label="edit user" component="span" onClick={() => handleEdit(row)}>
-                      <EditIcon />
-                    </IconButton>
+                  <TableCell align="center">{row.quantity}</TableCell>
+                  <TableCell align="center">{`${row.price} VNĐ`}</TableCell>
+                  <TableCell align="center">{row.vote}</TableCell>
+                  <TableCell align="center">
+                    <Grid container>
+                      <Grid item xs={4}>
+                        <IconButton color="primary" aria-label="edit user" component="span" onClick={() => handleEdit(row)}>
+                          <EditIcon />
+                        </IconButton>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <IconButton aria-label="edit user" component="span" onClick={() => handleSetHot(row.id)}>
+                          {row.is_hot ? <Star style={{ color: 'green' }} /> : <StarBorder style={{ color: 'green' }} />}
+                        </IconButton>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <IconButton aria-label="edit user" component="span" onClick={() => handleDelete(row.id)}>
+                          <DeleteForever style={{ color: 'tomato' }} />
+                        </IconButton>
+                      </Grid>
+                    </Grid>
                   </TableCell>
                 </TableRow>
               ))}
@@ -114,7 +154,7 @@ function ProductList() {
       </TableContainer>
       <PaginationBase pageIndex={page} perPage={perPage} totalPage={50} changePage={_changePage} changePerPage={_changePerPage} />
 
-      <EditProductModal isOpen={isEdit} handleClose={() => setIsEdit(false)} data={item} />
+      <EditProductModal getData={getData} isOpen={isEdit} handleClose={() => setIsEdit(false)} data={item} cat={cat?.data} />
     </div>
   );
 }
