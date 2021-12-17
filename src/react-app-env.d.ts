@@ -21,5 +21,10 @@ declare namespace NodeJS {
     REACT_APP_AUTH0_CLIENTID: string;
     REACT_APP_AUTH0_DOMAIN: string;
     REACT_APP_AUTH0_API_URL: string;
+
+    REACT_APP_IMAGE_REGION: string;
+    REACT_APP_IMAGE_BUCKET: string;
+    REACT_APP_ACCESS_KEY: string;
+    REACT_APP_SECRET_KEY: string;
   }
 }
