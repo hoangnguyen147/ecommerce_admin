@@ -18,7 +18,6 @@ FROM nginx:alpine AS RUN-stage
 USER root
 
 ## Remove default nginx index page
-RUN rm -rf /usr/share/nginx/html
 
 # Copy from the stage 1
 COPY --from=build-stage /home/node/app/build /usr/share/nginx/html
