@@ -22,7 +22,7 @@ RUN rm -rf /usr/share/nginx/html
 
 # Copy from the stage 1
 COPY --from=build-stage /home/node/app/build /usr/share/nginx/html
-COPY --from=build-stage` /home/node/app/.nginx/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build-stage /home/node/app/.nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
 # COPY nginx/nginx.conf /etc/nginx/conf.d
 EXPOSE 80
