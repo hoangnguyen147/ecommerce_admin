@@ -17,22 +17,15 @@ export const uploadImage = (file: any) => {
     secretAccessKey: SECRET_ACCESS_KEY,
   });
 
-  console.log('upload', file);
+  const time = new Date().getTime().toString();
 
   // 3. Using .putObject() to make the PUT request, S3 signs the request
   const params = {
     Body: JSON.stringify(file.stream),
     Bucket: 'hoangnguyen147',
-    CORSConfiguration: {
-      CORSRules: [
-        {
-          AllowedOrigins: ['*'],
-          AllowedMethods: ['GET'],
-        },
-      ],
-    },
+    Key: time,
   };
-  S3.putBucketCors(params)
+  S3.putObject(params)
     .on('build', (request) => {
       request.httpRequest.headers.Host = 'https://sgp1.digitaloceanspaces.com';
       // Note: I am assigning the size to the file Stream manually
