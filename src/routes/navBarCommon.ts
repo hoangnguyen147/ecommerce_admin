@@ -11,23 +11,23 @@ import AssessmentIcon from '@material-ui/icons/Assessment';
 import { PATH_NAME, DRAWER_MENU_LABEL } from 'configs';
 
 export const navBarCommon = [
-  {
-    subheader: 'Application',
-    items: [
-      {
-        title: 'Report',
-        href: PATH_NAME.DASHBOARD,
-        icon: DashboardIcon,
-        label: DRAWER_MENU_LABEL.DASHBOARD,
-      },
-      {
-        title: 'Playbackground',
-        href: PATH_NAME.PLAY_BACKGROUND,
-        icon: SportsEsportsIcon,
-        label: DRAWER_MENU_LABEL.PLAY_BACKGROUND,
-      },
-    ],
-  },
+  // {
+  //   subheader: 'Application',
+  //   items: [
+  //     {
+  //       title: 'Report',
+  //       href: PATH_NAME.DASHBOARD,
+  //       icon: DashboardIcon,
+  //       label: DRAWER_MENU_LABEL.DASHBOARD,
+  //     },
+  //     {
+  //       title: 'Playbackground',
+  //       href: PATH_NAME.PLAY_BACKGROUND,
+  //       icon: SportsEsportsIcon,
+  //       label: DRAWER_MENU_LABEL.PLAY_BACKGROUND,
+  //     },
+  //   ],
+  // },
   {
     subheader: 'Dashboard',
     items: [

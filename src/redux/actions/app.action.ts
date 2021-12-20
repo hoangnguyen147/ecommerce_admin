@@ -31,3 +31,10 @@ export const removeSnackbar = (key: string | number | undefined) => ({
   type: IAppActionTypes.REMOVE_SNACKBAR,
   payload: key,
 });
+
+export const setSearchContent = (content: string) => {
+  return {
+    type: IAppActionTypes.SET_SEARCH,
+    payload: content,
+  };
+};

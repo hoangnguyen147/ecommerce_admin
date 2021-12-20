@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { searchSelector } from 'redux/selectors/app.selector';
 
 // material core
 import Table from '@material-ui/core/Table';
@@ -38,6 +40,8 @@ function CategoryList() {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [item, setItem] = useState('');
 
+  const searchContent = useSelector(searchSelector);
+
   const getData = async () => {
     try {
       const res = await api.getAllCategory();
@@ -68,6 +72,12 @@ function CategoryList() {
     }
   };
 
+  const filterData =
+    data &&
+    data.filter((item: any) => {
+      return item.name.toLowerCase().includes(searchContent.toLowerCase());
+    });
+
   return (
     <div>
       {canAction('create', 'product') ? (
@@ -96,8 +106,8 @@ function CategoryList() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data &&
-              data?.map((row: any, index: number) => (
+            {filterData &&
+              filterData?.map((row: any, index: number) => (
                 <TableRow key={row.id}>
                   <TableCell component="th" scope="row">
                     {index + 1}

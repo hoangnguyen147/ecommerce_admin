@@ -2,6 +2,8 @@ import React, { memo } from 'react';
 
 // libs
 import clsx from 'clsx';
+import { useDispatch } from 'react-redux';
+import { setSearchContent } from 'redux/actions/app.action';
 
 // material core
 import AppBar from '@material-ui/core/AppBar';
@@ -29,6 +31,11 @@ type IProps = {
 
 function TopBar({ isDrawer, handleToogleDrawer }: IProps) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const handleSearch = (e: any) => {
+    dispatch(setSearchContent(e.target.value));
+  };
 
   return (
     <AppBar
@@ -61,6 +68,7 @@ function TopBar({ isDrawer, handleToogleDrawer }: IProps) {
               input: classes.inputInput,
             }}
             inputProps={{ 'aria-label': 'search' }}
+            onChange={handleSearch}
           />
         </div>
         <div className={classes.grow} />

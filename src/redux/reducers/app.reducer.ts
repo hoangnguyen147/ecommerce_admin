@@ -8,6 +8,7 @@ const initialState: IAppState = {
     content: '',
   },
   notifications: {},
+  searchContent: '',
 };
 
 const reducer = (state = initialState, { type, payload }: IAppActionCreator) => {
@@ -46,6 +47,12 @@ const reducer = (state = initialState, { type, payload }: IAppActionCreator) => 
       return {
         ...state,
         notifications: newNotfi,
+      };
+    }
+    case IAppActionTypes.SET_SEARCH: {
+      return {
+        ...state,
+        searchContent: payload,
       };
     }
     default:

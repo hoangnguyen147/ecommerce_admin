@@ -1,91 +1,103 @@
-import React, { useEffect, useState } from "react"
-import { useHistory } from "react-router-dom"
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { searchSelector } from 'redux/selectors/app.selector';
 
 // material core
-import Table from "@material-ui/core/Table"
-import TableBody from "@material-ui/core/TableBody"
-import TableCell from "@material-ui/core/TableCell"
-import TableContainer from "@material-ui/core/TableContainer"
-import TableHead from "@material-ui/core/TableHead"
-import TableRow from "@material-ui/core/TableRow"
-import Paper from "@material-ui/core/Paper"
-import Button from "@material-ui/core/Button"
-import Grid from "@material-ui/core/Grid"
-import AddIcon from "@material-ui/icons/Add"
-import EditIcon from "@material-ui/icons/Edit"
-import StarBorder from "@material-ui/icons/StarBorder"
-import Star from "@material-ui/icons/Star"
-import DeleteForever from "@material-ui/icons/DeleteForever"
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import AddIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
+import StarBorder from '@material-ui/icons/StarBorder';
+import Star from '@material-ui/icons/Star';
+import DeleteForever from '@material-ui/icons/DeleteForever';
 
-import * as api from "apis/product.api"
+import * as api from 'apis/product.api';
 
 // atomic
-import PaginationBase from "components/molecules/PaginationBase"
+import PaginationBase from 'components/molecules/PaginationBase';
 
 // configs
-import { PATH_NAME } from "configs"
+import { PATH_NAME } from 'configs';
 
 // helpers
-import { canAction } from "helpers"
+import { canAction } from 'helpers';
 
 // hooks
-import usePagination from "hooks/usePagination"
-import useGet from "hooks/useGet"
-import { IconButton } from "@material-ui/core"
-import EditProductModal from "../components/EditProductModal"
+import usePagination from 'hooks/usePagination';
+import useGet from 'hooks/useGet';
+import { IconButton } from '@material-ui/core';
+import EditProductModal from '../components/EditProductModal';
 
 function ProductList() {
-  const history = useHistory()
-  const { page, perPage, _changePage, _changePerPage } = usePagination()
-  const [data, setData] = useState<any>("")
-  const [isEdit, setIsEdit] = useState<boolean>(false)
-  const [item, setItem] = useState("")
+  const history = useHistory();
+  const { page, perPage, _changePage, _changePerPage } = usePagination();
+  const [data, setData] = useState<any>('');
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [item, setItem] = useState('');
 
-  const cat = useGet("/category", {}, true, 0)
+  const cat = useGet('/category', {}, true, 0);
+
+  const searchContent = useSelector(searchSelector);
+
+  console.log(searchContent);
 
   const getData = async () => {
     try {
-      const res = await api.getAllProduct()
-      console.log(res)
-      setData(res.data)
+      const res = await api.getAllProduct();
+      console.log(res);
+      setData(res.data);
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
-  }
+  };
 
   useEffect(() => {
-    getData()
-  }, [])
+    getData();
+  }, []);
 
   const handleEdit = (data: any) => {
-    setItem(data)
-    console.log(data)
-    setIsEdit(true)
-  }
+    setItem(data);
+    console.log(data);
+    setIsEdit(true);
+  };
 
   const handleSetHot = async (id: string) => {
     try {
-      const res = await api.patchSetHot(id)
-      console.log(res)
-      getData()
+      const res = await api.patchSetHot(id);
+      console.log(res);
+      getData();
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
-  }
+  };
 
   const handleDelete = async (id: string) => {
     try {
-      const res = await api.deleteProduct(id)
-      console.log(res)
-      getData()
+      const res = await api.deleteProduct(id);
+      console.log(res);
+      getData();
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
-  }
+  };
+
+  const filterData =
+    data &&
+    data.filter((item: any) => {
+      return item.name.toLowerCase().includes(searchContent.toLowerCase());
+    });
 
   return (
     <div>
-      {canAction("create", "product") ? (
+      {canAction('create', 'product') ? (
         <Grid container justify="flex-end">
           <Button
             type="submit"
@@ -114,8 +126,8 @@ function ProductList() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data &&
-              data?.map((row: any, index: number) => (
+            {filterData &&
+              filterData?.map((row: any, index: number) => (
                 <TableRow key={row.id}>
                   <TableCell component="th" scope="row">
                     {index + 1}
@@ -137,12 +149,12 @@ function ProductList() {
                       </Grid>
                       <Grid item xs={4}>
                         <IconButton aria-label="edit user" component="span" onClick={() => handleSetHot(row.id)}>
-                          {row.is_hot ? <Star style={{ color: "green" }} /> : <StarBorder style={{ color: "green" }} />}
+                          {row.is_hot ? <Star style={{ color: 'green' }} /> : <StarBorder style={{ color: 'green' }} />}
                         </IconButton>
                       </Grid>
                       <Grid item xs={4}>
                         <IconButton aria-label="edit user" component="span" onClick={() => handleDelete(row.id)}>
-                          <DeleteForever style={{ color: "tomato" }} />
+                          <DeleteForever style={{ color: 'tomato' }} />
                         </IconButton>
                       </Grid>
                     </Grid>
@@ -156,7 +168,7 @@ function ProductList() {
 
       <EditProductModal getData={getData} isOpen={isEdit} handleClose={() => setIsEdit(false)} data={item} cat={cat?.data} />
     </div>
-  )
+  );
 }
 
-export default ProductList
+export default ProductList;

@@ -3,6 +3,7 @@ export const IAppActionTypes = {
   SET_DIALOG: 'APP/SET_DIALOG',
   ENQUEUE_SNACKBAR: 'APP/ENQUEUE_SNACKBAR',
   REMOVE_SNACKBAR: 'APP/REMOVE_SNACKBAR',
+  SET_SEARCH: 'APP/SET_SEARCH',
 };
 
 type IDialog = {
@@ -15,6 +16,7 @@ export type IAppState = {
   isLoading: boolean;
   dialog: IDialog;
   notifications: any;
+  searchContent: string;
 };
 
 export type IAppActionCreator = {

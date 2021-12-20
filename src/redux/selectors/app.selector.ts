@@ -17,3 +17,8 @@ export const notificationsSelector = createSelector(
   (state: IRootState) => state.app,
   (app) => app.notifications,
 );
+
+export const searchSelector = createSelector(
+  (state: IRootState) => state.app,
+  (app) => app.searchContent,
+);
