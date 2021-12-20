@@ -5,3 +5,13 @@ export const login = async (data: any) => {
     showSpinner: true,
   });
 };
+
+export const resetPassword = async (username: string, new_password: string) => {
+  return httpRequest.patch(
+    '/auth/admin-reset-password',
+    { username, new_password },
+    {
+      showSpinner: true,
+    },
+  );
+};

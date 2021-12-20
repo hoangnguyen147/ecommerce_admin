@@ -107,10 +107,10 @@ function CategoryList() {
           </TableHead>
           <TableBody>
             {filterData &&
-              filterData?.map((row: any, index: number) => (
+              filterData?.slice((page - 1) * perPage, page * perPage).map((row: any, index: number) => (
                 <TableRow key={row.id}>
                   <TableCell component="th" scope="row">
-                    {index + 1}
+                    {(page - 1) * perPage + index + 1}
                   </TableCell>
                   <TableCell align="center">{row.name}</TableCell>
                   <TableCell align="center">{row.description}</TableCell>
@@ -136,7 +136,13 @@ function CategoryList() {
           </TableBody>
         </Table>
       </TableContainer>
-      <PaginationBase pageIndex={page} perPage={perPage} totalPage={50} changePage={_changePage} changePerPage={_changePerPage} />
+      <PaginationBase
+        pageIndex={page}
+        perPage={perPage}
+        totalPage={Math.ceil(filterData.length / perPage)}
+        changePage={_changePage}
+        changePerPage={_changePerPage}
+      />
 
       <EditCategoryModal getData={getData} isOpen={isEdit} handleClose={() => setIsEdit(false)} data={item} />
     </div>

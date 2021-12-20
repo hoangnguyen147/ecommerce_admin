@@ -33,7 +33,7 @@ function TopBar({ isDrawer, handleToogleDrawer }: IProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const handleSearch = (e: any) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearchContent(e.target.value));
   };
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { searchSelector } from 'redux/selectors/app.selector';
+import { formatterVnd } from 'utils/formatNumber';
 
 // material core
 import Table from '@material-ui/core/Table';
@@ -89,11 +90,15 @@ function ProductList() {
     }
   };
 
+  console.log(page, perPage);
+
   const filterData =
     data &&
     data.filter((item: any) => {
       return item.name.toLowerCase().includes(searchContent.toLowerCase());
     });
+
+  // .slice((curPage - 1) * dataPerPage, curPage * dataPerPage)
 
   return (
     <div>
@@ -127,10 +132,10 @@ function ProductList() {
           </TableHead>
           <TableBody>
             {filterData &&
-              filterData?.map((row: any, index: number) => (
+              filterData?.slice((page - 1) * perPage, page * perPage).map((row: any, index: number) => (
                 <TableRow key={row.id}>
                   <TableCell component="th" scope="row">
-                    {index + 1}
+                    {(page - 1) * perPage + index + 1}
                   </TableCell>
                   <TableCell align="center">{row.name}</TableCell>
                   <TableCell align="center">{row.category.name}</TableCell>
@@ -138,7 +143,7 @@ function ProductList() {
                     <img src={row.image} width="180" />
                   </TableCell>
                   <TableCell align="center">{row.quantity}</TableCell>
-                  <TableCell align="center">{`${row.price} VNĐ`}</TableCell>
+                  <TableCell align="center">{formatterVnd(row.price)}</TableCell>
                   <TableCell align="center">{row.vote}</TableCell>
                   <TableCell align="center">
                     <Grid container>
@@ -164,7 +169,13 @@ function ProductList() {
           </TableBody>
         </Table>
       </TableContainer>
-      <PaginationBase pageIndex={page} perPage={perPage} totalPage={50} changePage={_changePage} changePerPage={_changePerPage} />
+      <PaginationBase
+        pageIndex={page}
+        perPage={perPage}
+        totalPage={Math.ceil(filterData.length / perPage)}
+        changePage={_changePage}
+        changePerPage={_changePerPage}
+      />
 
       <EditProductModal getData={getData} isOpen={isEdit} handleClose={() => setIsEdit(false)} data={item} cat={cat?.data} />
     </div>
