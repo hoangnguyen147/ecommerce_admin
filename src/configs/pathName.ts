@@ -13,4 +13,5 @@ export const PATH_NAME = {
   CATEGORY_ADD: '/category/add',
   USERS: '/users',
   KANBAN: '/kanban',
+  ORDER: '/order',
 };

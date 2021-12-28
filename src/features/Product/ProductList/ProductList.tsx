@@ -144,7 +144,7 @@ function ProductList() {
                   </TableCell>
                   <TableCell align="center">{row.quantity}</TableCell>
                   <TableCell align="center">{formatterVnd(row.price)}</TableCell>
-                  <TableCell align="center">{row.vote}</TableCell>
+                  <TableCell align="center">{row.vote.toFixed(2)}</TableCell>
                   <TableCell align="center">
                     <Grid container>
                       <Grid item xs={4}>

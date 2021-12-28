@@ -6,6 +6,9 @@ import PeopleIcon from '@material-ui/icons/People';
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import AssessmentIcon from '@material-ui/icons/Assessment';
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
+import LocalShippingIcon from '@material-ui/icons/LocalShipping';
+import ShopTwoIcon from '@material-ui/icons/ShopTwo';
 
 // configs
 import { PATH_NAME, DRAWER_MENU_LABEL } from 'configs';
@@ -53,7 +56,7 @@ export const navBarCommon = [
       },
       {
         title: 'Category',
-        icon: ShopIcon,
+        icon: ShopTwoIcon,
         href: PATH_NAME.CATEGORY,
         label: DRAWER_MENU_LABEL.CATEGORY,
         items: [
@@ -72,10 +75,10 @@ export const navBarCommon = [
         ],
       },
       {
-        title: 'Kanban',
-        href: PATH_NAME.KANBAN,
-        icon: AssessmentIcon,
-        label: DRAWER_MENU_LABEL.KANBAN,
+        title: 'Order',
+        href: PATH_NAME.ORDER,
+        icon: LocalShippingIcon,
+        label: DRAWER_MENU_LABEL.ORDER,
       },
     ],
   },

@@ -29,6 +29,7 @@ const Login = lazy(() => import('features/Login'));
 const Kanban = lazy(() => import('features/Kanban'));
 const CategoryList = lazy(() => import('features/Category/CategoryList'));
 const CategoryAdd = lazy(() => import('features/Category/CategoryAdd'));
+const OrderList = lazy(() => import('features/Order'));
 
 const routesConfig: IRoutes[] = [
   {
@@ -103,6 +104,12 @@ const routesConfig: IRoutes[] = [
         exact: true,
         path: PATH_NAME.USERS,
         component: Users,
+        requireRoles: [USER_ROLE.ADMIN, USER_ROLE.LEAD],
+      },
+      {
+        exact: true,
+        path: PATH_NAME.ORDER,
+        component: OrderList,
         requireRoles: [USER_ROLE.ADMIN, USER_ROLE.LEAD],
       },
       {
