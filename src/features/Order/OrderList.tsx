@@ -132,45 +132,48 @@ function OrderList() {
           </TableHead>
           <TableBody>
             {filterData &&
-              filterData?.slice((page - 1) * perPage, page * perPage).map((row: any, index: number) => {
-                const sumCash: string = orderCash(row.items);
-                return (
-                  <TableRow key={row.id}>
-                    <TableCell component="th" scope="row">
-                      {(page - 1) * perPage + index + 1}
-                    </TableCell>
-                    <TableCell align="center">{row.userCreate?.fullname}</TableCell>
-                    {/* <TableCell align="center">
+              filterData
+                ?.sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+                .slice((page - 1) * perPage, page * perPage)
+                .map((row: any, index: number) => {
+                  const sumCash: string = orderCash(row.items);
+                  return (
+                    <TableRow key={row.id}>
+                      <TableCell component="th" scope="row">
+                        {(page - 1) * perPage + index + 1}
+                      </TableCell>
+                      <TableCell align="center">{row.userCreate?.fullname}</TableCell>
+                      {/* <TableCell align="center">
                       <img src={row.image} width="180" />
                     </TableCell> */}
-                    <TableCell align="center">{row.userCreate?.phone}</TableCell>
-                    <TableCell align="center">{row.userCreate?.email}</TableCell>
-                    <TableCell align="center">{row.userCreate?.address}</TableCell>
-                    <TableCell align="center">{orderCash(row.items)}</TableCell>
-                    <TableCell align="center">{parseShortTime(row.created_at)}</TableCell>
-                    <TableCell align="center">{parseStatus(row.status)}</TableCell>
-                    <TableCell align="center">
-                      <Grid container>
-                        <Grid item xs={6}>
-                          <IconButton
-                            color="primary"
-                            aria-label="edit user"
-                            component="span"
-                            onClick={() => viewDetail({ ...row, orderCash: sumCash })}
-                          >
-                            <InfoOutlined />
-                          </IconButton>
-                        </Grid>
-                        <Grid item xs={6}>
+                      <TableCell align="center">{row.userCreate?.phone}</TableCell>
+                      <TableCell align="center">{row.userCreate?.email}</TableCell>
+                      <TableCell align="center">{row.userCreate?.address}</TableCell>
+                      <TableCell align="center">{orderCash(row.items)}</TableCell>
+                      <TableCell align="center">{parseShortTime(row.created_at)}</TableCell>
+                      <TableCell align="center">{parseStatus(row.status)}</TableCell>
+                      <TableCell align="center">
+                        <Grid container>
+                          <Grid item xs={12}>
+                            <IconButton
+                              color="primary"
+                              aria-label="edit user"
+                              component="span"
+                              onClick={() => viewDetail({ ...row, orderCash: sumCash })}
+                            >
+                              <InfoOutlined />
+                            </IconButton>
+                          </Grid>
+                          {/* <Grid item xs={6}>
                           <IconButton aria-label="edit user" component="span">
                             <DeleteForever style={{ color: 'tomato' }} />
                           </IconButton>
+                        </Grid> */}
                         </Grid>
-                      </Grid>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
           </TableBody>
         </Table>
       </TableContainer>

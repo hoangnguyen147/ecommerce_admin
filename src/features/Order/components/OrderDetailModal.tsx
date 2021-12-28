@@ -137,23 +137,11 @@ export default function OrderDetailModal({ isOpen, handleClose, data, getData }:
           </>
         );
       case 'success':
-        return (
-          <Button onClick={() => handleSubmit()} variant="contained" color="secondary" size="small">
-            Xóa
-          </Button>
-        );
+        return null;
       case 'reject':
-        return (
-          <Button onClick={() => handleSubmit()} variant="contained" color="secondary" size="small">
-            Xóa
-          </Button>
-        );
+        return null;
       case 'cancel':
-        return (
-          <Button onClick={() => handleSubmit()} variant="contained" color="secondary" size="small">
-            Xóa
-          </Button>
-        );
+        return null;
       default:
         return 'Không xác định';
     }

@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'redux/actions/app.action';
 import { postAddCategory } from 'apis/category.api';
 import { PhotoAlbumOutlined, PhotoCamera } from '@material-ui/icons';
-import { Input } from '@material-ui/core';
+import { Input, Typography } from '@material-ui/core';
 import { ImageField } from 'components/molecules/ImageField/ImageField';
 
 function CategoryAdd() {
@@ -23,6 +23,16 @@ function CategoryAdd() {
     image: '',
     description: '',
   });
+
+  const [isUri, setIsUri] = useState<boolean>(false);
+
+  const handleChangeToUriText = () => {
+    setValues({
+      ...values,
+      image: '',
+    });
+    setIsUri(!isUri);
+  };
 
   const resetForm = () =>
     setValues({
@@ -110,10 +120,29 @@ function CategoryAdd() {
           />
         </Grid>
         <Grid item xs={12} md={12}>
-          <h4>Thêm hình ảnh</h4>
+          <Typography
+            style={{ padding: '10px 4px', cursor: 'pointer', display: 'inline-block' }}
+            variant="h6"
+            color="textPrimary"
+            onClick={() => handleChangeToUriText()}
+          >
+            Thêm hình ảnh
+          </Typography>
         </Grid>
         <Grid item xs={12} md={12} className="my-10">
-          <ImageField name="category_image_field" value={values.image} url={values.image} onChange={handleImageFieldChange} />
+          {!isUri ? (
+            <ImageField name="category_image_field" value={values.image} url={values.image} onChange={handleImageFieldChange} />
+          ) : (
+            <TextField
+              name="image"
+              value={values.image}
+              onChange={handleInputChange}
+              fullWidth
+              id="uri"
+              label="Hình ảnh"
+              variant="outlined"
+            />
+          )}
         </Grid>
       </Grid>
       <br />

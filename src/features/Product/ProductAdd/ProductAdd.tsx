@@ -1,125 +1,136 @@
-import React, { useState } from "react"
+import React, { useState } from 'react';
 
-import Grid from "@material-ui/core/Grid"
-import TextField from "@material-ui/core/TextField"
-import InputLabel from "@material-ui/core/InputLabel"
-import MenuItem from "@material-ui/core/MenuItem"
-import FormControl from "@material-ui/core/FormControl"
-import Select from "@material-ui/core/Select"
-import Button from "@material-ui/core/Button"
-import useGet from "hooks/useGet"
-import { postAddProduct } from "apis/product.api"
-import { useDispatch } from "react-redux"
-import { enqueueSnackbarAction } from "redux/actions/app.action"
-import { ImageField } from "components/molecules/ImageField/ImageField"
-import uploadFile from "services/uploadService"
-import { uploadImage } from "services/uploadService2"
-import s3Cli from "services/uploadService3"
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import Button from '@material-ui/core/Button';
+import useGet from 'hooks/useGet';
+import { postAddProduct } from 'apis/product.api';
+import { useDispatch } from 'react-redux';
+import { enqueueSnackbarAction } from 'redux/actions/app.action';
+import { ImageField } from 'components/molecules/ImageField/ImageField';
+import uploadFile from 'services/uploadService';
+import { uploadImage } from 'services/uploadService2';
+import s3Cli from 'services/uploadService3';
+import { Typography } from '@material-ui/core';
 
 function ProductAdd() {
-  const { data } = useGet("/category", {}, true, 0)
-  const dispatch = useDispatch()
+  const { data } = useGet('/category', {}, true, 0);
+  const dispatch = useDispatch();
   const [values, setValues] = useState<any>({
-    name: "",
-    category_id: "",
-    image: "",
-    price: "",
-    quantity: "",
-    vote: "",
-  })
+    name: '',
+    category_id: '',
+    image: '',
+    price: '',
+    quantity: '',
+    vote: '',
+  });
+
+  const [isUri, setIsUri] = useState<boolean>(false);
+
+  const handleChangeToUriText = () => {
+    setValues({
+      ...values,
+      image: '',
+    });
+    setIsUri(!isUri);
+  };
 
   const resetForm = () =>
     setValues({
-      name: "",
-      category_id: "",
-      image: "",
-      price: "",
-      quantity: "",
-      overview: "",
-    })
+      name: '',
+      category_id: '',
+      image: '',
+      price: '',
+      quantity: '',
+      overview: '',
+    });
 
   // này làm vội nên xài any thôi khỏi phải khai báo DTO v:
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { target } = e
+    const { target } = e;
     setValues({
       ...values,
       [target.name]: target.value,
-    })
-  }
+    });
+  };
 
   const handleSelectChange = (e: React.ChangeEvent<any>) => {
-    const { target } = e
+    const { target } = e;
     setValues({
       ...values,
       [target.name]: target.value,
-    })
-  }
+    });
+  };
 
   const handleImageFieldChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e)
-    const target: any = e.currentTarget
+    console.log(e);
+    const target: any = e.currentTarget;
     if (target?.files[0]) {
-      const file = target.files[0]
+      const file = target.files[0];
 
-      await uploadImage(file)
+      await uploadImage(file);
 
-      const reader = new FileReader()
+      const reader = new FileReader();
       reader.onloadend = () => {
         setValues({
           ...values,
           image: reader.result,
-        })
+        });
         // console.log(reader.result);
-      }
-      reader.readAsDataURL(file)
+      };
+      reader.readAsDataURL(file);
     }
-  }
+  };
 
   const handleImageChange = (e: any) => {
     if (e.target.files && e.target.files[0]) {
-      const blob = e.target.files[0]
+      const blob = e.target.files[0];
       const params = {
         Body: blob,
-        Bucket: "",
-        Key: "first",
-      }
+        Bucket: '',
+        Key: 'first',
+      };
       // Sending the file to the Spaces
       s3Cli
         .putObject(params)
-        .on("build", (request) => {
-          request.httpRequest.headers.Host = "https://hoangnguyen147.sgp1.digitaloceanspaces.com"
+        .on('build', (request) => {
+          request.httpRequest.headers.Host = 'https://hoangnguyen147.sgp1.digitaloceanspaces.com';
           // request.httpRequest.headers['Content-Length'] = blob.size;
           // request.httpRequest.headers['Content-Type'] = blob.type;
-          request.httpRequest.headers["x-amz-acl"] = "public-read"
+          request.httpRequest.headers['x-amz-acl'] = 'public-read';
         })
         .send((err: any) => {
-          if (err) console.log("err")
+          if (err) console.log('err');
           else {
             // If there is no error updating the editor with the imageUrl
-            const imageUrl = "https://hoangnguyen147.sgp1.digitaloceanspaces.com/first-image"
-            console.log("ok")
+            const imageUrl = 'https://hoangnguyen147.sgp1.digitaloceanspaces.com/first-image';
+            console.log('ok');
             // callback(imageUrl, 'first-image');
           }
-        })
+        });
     }
-  }
+  };
 
   const handleSubmit = async () => {
     try {
-      const res = await postAddProduct(values)
+      const res = await postAddProduct(values);
       dispatch(
         enqueueSnackbarAction({
           key: new Date().getTime() + 3000,
-          message: "Thêm sản phẩm thành công",
-          variant: "success",
+          message: 'Thêm sản phẩm thành công',
+          variant: 'success',
         }),
-      )
-      console.log(res)
+      );
+      console.log(res);
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
-  }
+  };
 
   return (
     <>
@@ -153,7 +164,7 @@ function ProductAdd() {
                   <MenuItem key={item.id} value={item.id}>
                     {item.name}
                   </MenuItem>
-                )
+                );
               })}
             </Select>
           </FormControl>
@@ -199,10 +210,29 @@ function ProductAdd() {
           />
         </Grid>
         <Grid item xs={12} md={12}>
-          <h4>Thêm hình ảnh</h4>
+          <Typography
+            style={{ padding: '10px 4px', cursor: 'pointer', display: 'inline-block' }}
+            variant="h6"
+            color="textPrimary"
+            onClick={() => handleChangeToUriText()}
+          >
+            Thêm hình ảnh
+          </Typography>
         </Grid>
         <Grid item xs={12} md={12} className="my-10">
-          <ImageField name="category_image_field" value={values.image} url={values.image} onChange={handleImageFieldChange} />
+          {!isUri ? (
+            <ImageField name="category_image_field" value={values.image} url={values.image} onChange={handleImageFieldChange} />
+          ) : (
+            <TextField
+              name="image"
+              value={values.image}
+              onChange={handleInputChange}
+              fullWidth
+              id="uri"
+              label="Hình ảnh"
+              variant="outlined"
+            />
+          )}
         </Grid>
         <br />
         <Grid container justify="flex-end" className="my-20">
@@ -220,7 +250,7 @@ function ProductAdd() {
         </Grid>
       </Grid>
     </>
-  )
+  );
 }
 
-export default ProductAdd
+export default ProductAdd;

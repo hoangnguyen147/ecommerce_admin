@@ -7,7 +7,7 @@ export const parseStatus = (status: string) => {
     case 'success':
       return 'Giao hàng thành công';
     case 'reject':
-      return 'Đã từ chối';
+      return 'Từ chối đơn hàng';
     case 'cancel':
       return 'Hủy';
     default:

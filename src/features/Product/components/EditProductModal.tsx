@@ -29,11 +29,13 @@ export default function EditProductModal({ isOpen, handleClose, data, cat, getDa
     image: '',
     price: '',
     quantity: '',
-    vote: '',
   });
+
+  const [isUri, setIsUri] = useState<boolean>(false);
 
   useEffect(() => {
     setValues(data);
+    setIsUri(false);
   }, [data]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,11 +83,19 @@ export default function EditProductModal({ isOpen, handleClose, data, cat, getDa
     }
   };
 
+  const handleChangeToUriText = () => {
+    setValues({
+      ...values,
+      image: isUri ? data.image : '',
+    });
+    setIsUri(!isUri);
+  };
+
   return (
     <>
       <Dialog fullWidth maxWidth="sm" open={isOpen} aria-labelledby="max-width-dialog-title">
         <DialogContent>
-          <Typography variant="h6" color="textPrimary">
+          <Typography variant="h5" color="textPrimary">
             Sửa sản phẩm
           </Typography>
           <br />
@@ -147,19 +157,33 @@ export default function EditProductModal({ isOpen, handleClose, data, cat, getDa
                 variant="outlined"
               />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                name="vote"
-                value={values.vote}
-                onChange={handleInputChange}
-                fullWidth
-                id="vote"
-                label="Đánh giá"
-                variant="outlined"
-              />
-            </Grid>
             <Grid item xs={12} md={12} className="my-10">
-              <ImageField name="category_image_field" value={values.image} url={values.image} onChange={handleImageFieldChange} />
+              <Typography
+                style={{ padding: '10px 4px', cursor: 'pointer', display: 'inline-block' }}
+                variant="h6"
+                color="textPrimary"
+                onClick={() => handleChangeToUriText()}
+              >
+                Thêm hình ảnh
+              </Typography>
+              {!isUri ? (
+                <ImageField
+                  name="category_image_field"
+                  value={values.image}
+                  url={values.image}
+                  onChange={handleImageFieldChange}
+                />
+              ) : (
+                <TextField
+                  name="image"
+                  value={values.image}
+                  onChange={handleInputChange}
+                  fullWidth
+                  id="uri"
+                  label="Hình ảnh"
+                  variant="outlined"
+                />
+              )}
             </Grid>
           </Grid>
         </DialogContent>
