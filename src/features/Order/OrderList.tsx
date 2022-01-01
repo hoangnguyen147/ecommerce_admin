@@ -94,7 +94,7 @@ function OrderList() {
     items.forEach((item: any) => {
       sum += productCash(item);
     });
-    return formatterVnd(sum);
+    return sum;
   };
 
   // .slice((curPage - 1) * dataPerPage, curPage * dataPerPage)
@@ -136,7 +136,7 @@ function OrderList() {
                 ?.sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
                 .slice((page - 1) * perPage, page * perPage)
                 .map((row: any, index: number) => {
-                  const sumCash: string = orderCash(row.items);
+                  const sumCash: number = orderCash(row.items);
                   return (
                     <TableRow key={row.id}>
                       <TableCell component="th" scope="row">
@@ -149,7 +149,7 @@ function OrderList() {
                       <TableCell align="center">{row.userCreate?.phone}</TableCell>
                       <TableCell align="center">{row.userCreate?.email}</TableCell>
                       <TableCell align="center">{row.userCreate?.address}</TableCell>
-                      <TableCell align="center">{orderCash(row.items)}</TableCell>
+                      <TableCell align="center">{formatterVnd(sumCash)}</TableCell>
                       <TableCell align="center">{parseShortTime(row.created_at)}</TableCell>
                       <TableCell align="center">{parseStatus(row.status)}</TableCell>
                       <TableCell align="center">

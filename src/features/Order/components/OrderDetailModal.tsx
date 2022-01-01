@@ -178,11 +178,28 @@ export default function OrderDetailModal({ isOpen, handleClose, data, getData }:
             <Typography variant="body1" color="textPrimary">
               Tổng cộng:
             </Typography>
-            {data.orderCash}
+            {formatterVnd(data.orderCash)}
+          </div>
+          <div className={classes.product_item_wrapper}>
+            <Typography variant="body1" color="textPrimary">
+              Thuế GTGT:
+            </Typography>
+            {formatterVnd(data.orderCash * 0.1)}
+          </div>
+          <div className={classes.product_item_wrapper}>
+            <Typography variant="body1" color="textPrimary">
+              Phí vận chuyển:
+            </Typography>
+            30.000 VND
+          </div>
+          <div className={classes.product_item_wrapper} style={{ fontWeight: 'bold' }}>
+            <Typography variant="body1" color="textPrimary" style={{ fontWeight: 'bold' }}>
+              Thành tiền:
+            </Typography>
+            {formatterVnd(data.orderCash * 1.1 + 30000)}
           </div>
           <Typography style={{ padding: '8px 0', color: 'blue' }} variant="body1" color="textPrimary">
-            {/* {`Lời nhắn: ${(<div dangerouslySetInnerHTML={{ __html: data.message }} />)}`} */}
-            <div dangerouslySetInnerHTML={{ __html: data.message }} />
+            Lời nhắn: {data.message}
           </Typography>
         </DialogContent>
         <DialogActions>

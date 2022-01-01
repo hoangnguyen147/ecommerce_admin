@@ -113,9 +113,7 @@ function CategoryList() {
                     {(page - 1) * perPage + index + 1}
                   </TableCell>
                   <TableCell align="center">{row.name}</TableCell>
-                  <TableCell align="center">
-                    <div dangerouslySetInnerHTML={{ __html: row.description }} />
-                  </TableCell>
+                  <TableCell align="center">{row.description}</TableCell>
                   <TableCell align="center">
                     <img src={row.image} width="180" />
                   </TableCell>
