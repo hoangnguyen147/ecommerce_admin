@@ -181,7 +181,8 @@ export default function OrderDetailModal({ isOpen, handleClose, data, getData }:
             {data.orderCash}
           </div>
           <Typography style={{ padding: '8px 0', color: 'blue' }} variant="body1" color="textPrimary">
-            {`Lời nhắn: ${data.message}`}
+            {/* {`Lời nhắn: ${(<div dangerouslySetInnerHTML={{ __html: data.message }} />)}`} */}
+            <div dangerouslySetInnerHTML={{ __html: data.message }} />
           </Typography>
         </DialogContent>
         <DialogActions>
