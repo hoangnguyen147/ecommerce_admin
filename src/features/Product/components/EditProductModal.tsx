@@ -29,6 +29,7 @@ export default function EditProductModal({ isOpen, handleClose, data, cat, getDa
     image: '',
     price: '',
     quantity: '',
+    overview: '',
   });
 
   const [isUri, setIsUri] = useState<boolean>(false);
@@ -155,6 +156,21 @@ export default function EditProductModal({ isOpen, handleClose, data, cat, getDa
                 id="quantity"
                 label="Số lượng"
                 variant="outlined"
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                name="overview"
+                value={values.overview}
+                onChange={handleInputChange}
+                fullWidth
+                id="overview"
+                label="Tính năng"
+                variant="outlined"
+                multiline
+                rows={4}
+                maxRows={5}
               />
             </Grid>
             <Grid item xs={12} md={12} className="my-10">
